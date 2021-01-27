@@ -1,0 +1,44 @@
+classification:
+  - command: start
+    texts:
+      - "start"
+      - "Start"
+      - "begin"
+      - "let's start"
+      - "Let's go"
+      - "start now"
+      - "hi"
+      - "hello"
+
+  - command: end
+    texts:
+      - "end"  
+      - "exit"  
+      - "stop"  
+      - "end the quiz"  
+      - "end trivia"
+
+  - command: say_yes
+    texts:
+      - "yes"
+      - "indeed"
+      - "of course"
+      - "that sounds good"
+      - "correct "
+      - "yeah"
+      - "yup"
+      - "sure"
+
+  - command: say_no
+    texts:
+      - "no"
+      - "never"
+      - "I don't think so"
+      - "don't like that"
+      - "no way"
+      - "nop"
+      - "no thanks"
+
+pipeline:
+  remove_symbols: true
+  lower: true
