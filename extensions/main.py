@@ -1,4 +1,4 @@
-from flask import Flask, Response, request, jsonify
+from flask import Flask, Response, Request, jsonify
 
 import json
 import html
@@ -68,7 +68,7 @@ def get_quiz() -> list:
             f"{idx+1}_question": html.unescape(q.get("question")),
             f"{idx+1}_options_text": options_text,
             f"{idx+1}_correct": str(correct_index + 1),
-            f"{idx+1}_correct_text": correct,
+            f"{idx+1}_correct_text": html.unescape(correct),
         })
 
     return quiz_data_new
@@ -84,10 +84,10 @@ def format_question(slots: dict, number: str) -> str:
 def wrong_option(data: dict, number: str) -> dict:
     return {
         "fsm": {
-            "state": data.get("dom").get("state_table").get(f"question_{number}"),
+            "state": data.get("domain").get("state_table").get(f"question_{number}"),
             "slots": data.get("fsm").get("slots"),
         },
-        "res": "Select one of the options."
+        "answers": ["Select one of the options."],
     }
 
 def init_quiz(data: dict) -> dict:
@@ -99,7 +99,7 @@ def init_quiz(data: dict) -> dict:
             "state": data.get("fsm").get("state"),
             "slots": slots
         },
-        "res": [
+        "answers": [
             WELCOME_MESSAGE,
             format_question(slots, "1"),
         ],
@@ -115,7 +115,7 @@ def validate_ans_1(data: dict) -> dict:
             "state": data.get("fsm").get("state"),
             "slots": slots
         },
-        "res": format_question(slots, "2"),
+        "answers": [format_question(slots, "2")],
     })
     
 
@@ -129,7 +129,7 @@ def validate_ans_2(data: dict) -> dict:
             "state": data.get("fsm").get("state"),
             "slots": slots
         },
-        "res":format_question(slots, "3"),
+        "answers": [format_question(slots, "3")],
     })
 
 def score(data: dict) -> dict:
@@ -163,7 +163,7 @@ def score(data: dict) -> dict:
 
     return jsonify({
         "fsm": data.get("fsm"),
-        "res": [
+        "answers": [
             message,
             "Do you want to see the correct answers?",
         ],
@@ -185,31 +185,31 @@ def score_review(data: dict) -> dict:
 
     return jsonify({
         "fsm": data.get("fsm"),
-        "res": message_final,
+        "answers": [message_final],
     })
 
-func_map = {
-    "ext_init": init_quiz,
-    "ext_val_ans_1": validate_ans_1,
-    "ext_val_ans_2": validate_ans_2,
-    "ext_score": score,
-    "ext_score_review": score_review,
+registered_extensions = {
+    "init": init_quiz,
+    "val_ans_1": validate_ans_1,
+    "val_ans_2": validate_ans_2,
+    "score": score,
+    "score_review": score_review,
 }
 
+def get_all_extensions():
+    return jsonify(list(registered_extensions.keys()))
 
-@app.route("/ext/get_all_funcs", methods=["GET"])
-def get_all_funcs():
-    return jsonify(list(func_map.keys()))
-
-@app.route("/ext/get_func", methods=["POST"])
-def get_func():
+def get_extension(request: Request):
     data = request.get_json()
-    req = data.get("req")
-    f = func_map.get(req)
+    f = registered_extensions.get(data.get("extension", ""))
     if not f:
         return Response(status=400)
     return f(data)
 
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8770)
+def entrypoint(request: Request):
+    if request.path == "/extensions" and request.method == "GET":
+        return get_all_extensions()
+    elif request.path == "/extension" and request.method == "POST":
+        return get_extension(request)
+    else:
+        return Response(status=400)

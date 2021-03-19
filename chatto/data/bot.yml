@@ -1,0 +1,6 @@
+bot_name: "trivia_bot"
+
+extensions:
+  trivia:
+    type: REST
+    url: 

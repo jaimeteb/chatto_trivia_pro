@@ -1,8 +1,0 @@
-bot_name: "trivia_bot"
-extensions:
-  type: REST
-  url: 
-store:
-  type: CACHE
-  ttl: 3600
-  purge: 7200

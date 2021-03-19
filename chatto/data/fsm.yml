@@ -1,0 +1,70 @@
+functions:
+  - from:
+      - initial
+    into: question_1
+    command: start
+    extension:
+      server: trivia
+      name: init
+
+  - from:
+      - question_1
+    into: question_2
+    command: any
+    extension:
+      server: trivia
+      name: val_ans_1
+    slot:
+      name: answer_1
+      mode: whole_text
+
+  - from:
+      - question_2
+    into: question_3
+    command: any
+    extension:
+      server: trivia
+      name: val_ans_2
+    slot:
+      name: answer_2
+      mode: whole_text
+
+  - from:
+      - question_3
+    into: score
+    command: any
+    extension:
+      server: trivia
+      name: score
+    slot:
+      name: answer_3
+      mode: whole_text
+
+  - from:
+      - score
+    into: initial
+    command: say_no
+    answers: >-
+      That's ok.
+      See you next time! 👋
+
+  - from:
+      - score
+    into: initial
+    command: say_yes
+    extension:
+      server: trivia
+      name: score_review
+
+  - from:
+      - any
+    into: initial
+    command: end
+    answers: >-
+      Exited from the quiz.
+      Bye bye! 👋
+
+defaults:
+  unknown: "Not sure I understood, try again please."
+  unsure: "Not sure I understood, try again please."
+  error: "I'm sorry, there was an error."
