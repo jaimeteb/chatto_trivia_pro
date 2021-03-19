@@ -1,0 +1,37 @@
+service: chatto-trivia-bot
+
+provider:
+  name: google
+  stage: dev
+  runtime: go113
+  project: jaimeteb
+  credentials: ~/.gcloud/serverless-deployer.json
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-google-cloudfunctions
+  - serverless-plugin-scripts  
+
+package:
+  exclude:
+    - .gitignore
+    - .git/**
+
+functions:
+  rest:
+    handler: RESTHandler
+    events:
+      - http: path
+
+custom:
+  scripts:
+    commands:
+      make-public: |
+        gcloud functions add-iam-policy-binding ${self:service}-${self:provider.stage}-${opt:function, ''} \
+          --member="allUsers" \
+          --role="roles/cloudfunctions.invoker" \
+          --project=${self:provider.project}
+    hooks:
+      'after:deploy:deploy': |
+        npx sls make-public --function rest
