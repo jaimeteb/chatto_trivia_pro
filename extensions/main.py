@@ -1,11 +1,11 @@
+from typing import List
 from flask import Flask, Response, Request, jsonify
 
+import os
 import json
 import html
 import random
 import requests
-
-app = Flask(__name__)
 
 quiz_url = "https://opentdb.com/api.php?amount=3&type=multiple"
 
@@ -48,6 +48,9 @@ emoji_categories = {
 WELCOME_MESSAGE = "Hello and welcome to the trivia bot! ✨\n\nYou'll be asked 3 different trivia questions from any difficulty and category."
 QUESTION_TEMPLATE = "*Category: {category}* \n👉 {question_text} \n{options}"
 
+def make_text_answers(*messages) -> List[dict]:
+    return [{"text": msg} for msg in messages]
+
 def get_quiz() -> list:
     r = requests.get(quiz_url)
     quiz_data = r.json().get("results")
@@ -87,7 +90,7 @@ def wrong_option(data: dict, number: str) -> dict:
             "state": data.get("domain").get("state_table").get(f"question_{number}"),
             "slots": data.get("fsm").get("slots"),
         },
-        "answers": ["Select one of the options."],
+        "answers": [{"text": "Select one of the options."}],
     }
 
 def init_quiz(data: dict) -> dict:
@@ -99,14 +102,14 @@ def init_quiz(data: dict) -> dict:
             "state": data.get("fsm").get("state"),
             "slots": slots
         },
-        "answers": [
+        "answers": make_text_answers(
             WELCOME_MESSAGE,
-            format_question(slots, "1"),
-        ],
+            format_question(slots, "1")
+        ),
     })
 
 def validate_ans_1(data: dict) -> dict:
-    if data.get("txt") not in ["1", "2", "3", "4"]:
+    if data.get("question").get("text") not in ["1", "2", "3", "4"]:
         return jsonify(wrong_option(data, "1"))
 
     slots = data.get("fsm").get("slots")
@@ -115,12 +118,12 @@ def validate_ans_1(data: dict) -> dict:
             "state": data.get("fsm").get("state"),
             "slots": slots
         },
-        "answers": [format_question(slots, "2")],
+        "answers": make_text_answers(format_question(slots, "2")),
     })
     
 
 def validate_ans_2(data: dict) -> dict:
-    if data.get("txt") not in ["1", "2", "3", "4"]:
+    if data.get("question").get("text") not in ["1", "2", "3", "4"]:
         return jsonify(wrong_option(data, "2"))
 
     slots = data.get("fsm").get("slots")
@@ -129,11 +132,11 @@ def validate_ans_2(data: dict) -> dict:
             "state": data.get("fsm").get("state"),
             "slots": slots
         },
-        "answers": [format_question(slots, "3")],
+        "answers": make_text_answers(format_question(slots, "3")),
     })
 
 def score(data: dict) -> dict:
-    if data.get("txt") not in ["1", "2", "3", "4"]:
+    if data.get("question").get("text") not in ["1", "2", "3", "4"]:
         return jsonify(wrong_option(data, "3"))
 
     slots = data.get("fsm").get("slots")
@@ -163,10 +166,10 @@ def score(data: dict) -> dict:
 
     return jsonify({
         "fsm": data.get("fsm"),
-        "answers": [
+        "answers": make_text_answers(
             message,
             "Do you want to see the correct answers?",
-        ],
+        ),
     })
 
 def score_review(data: dict) -> dict:
@@ -185,7 +188,7 @@ def score_review(data: dict) -> dict:
 
     return jsonify({
         "fsm": data.get("fsm"),
-        "answers": [message_final],
+        "answers": make_text_answers(message_final),
     })
 
 registered_extensions = {
@@ -213,3 +216,28 @@ def entrypoint(request: Request):
         return get_extension(request)
     else:
         return Response(status=400)
+
+
+if __name__ == "__main__":
+    from flask import request
+
+    app = Flask(__name__)
+    debug = True if os.getenv("DEBUG", "false") == "true" else False
+
+    @app.route("/extensions", methods=["GET"])
+    def get_all_extensions_flask():
+        return jsonify(list(registered_extensions.keys()))
+    
+    @app.route("/extension", methods=["POST"])
+    def get_extension_flask():
+        data = request.get_json()
+        app.logger.debug(data)
+        req = data.get("extension")
+        f = registered_extensions.get(req)
+        if not f:
+            return Response(status=400)
+        r = f(data)
+        app.logger.debug(r)
+        return r
+
+    app.run(host="0.0.0.0", port=8770, debug=debug)

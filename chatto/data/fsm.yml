@@ -1,4 +1,4 @@
-functions:
+transitions:
   - from:
       - initial
     into: question_1
@@ -44,9 +44,9 @@ functions:
       - score
     into: initial
     command: say_no
-    answers: >-
-      That's ok.
-      See you next time! 👋
+    answers:
+      - text: That's ok.
+      - text: See you next time! 👋
 
   - from:
       - score
@@ -60,9 +60,9 @@ functions:
       - any
     into: initial
     command: end
-    answers: >-
-      Exited from the quiz.
-      Bye bye! 👋
+    answers:
+      - text: Exited from the quiz.
+      - text: Bye bye! 👋
 
 defaults:
   unknown: "Not sure I understood, try again please."

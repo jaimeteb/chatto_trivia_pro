@@ -6,6 +6,7 @@ provider:
   runtime: go113
   project: jaimeteb
   credentials: ~/.gcloud/serverless-deployer.json
+  environment: ${file(../.env.json)}
 
 frameworkVersion: '2'
 
@@ -19,8 +20,8 @@ package:
     - .git/**
 
 functions:
-  rest:
-    handler: RESTHandler
+  telegram:
+    handler: TelegramHandler
     events:
       - http: path
 
@@ -34,4 +35,4 @@ custom:
           --project=${self:provider.project}
     hooks:
       'after:deploy:deploy': |
-        npx sls make-public --function rest
+        npx sls make-public --function telegram

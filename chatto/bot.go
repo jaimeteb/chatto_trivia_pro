@@ -18,7 +18,7 @@ func init() {
 	b = bot.NewServer(path.Join(sourceCodePath, chattoDataPath), 0)
 }
 
-// RESTHandler wrapper
-func RESTHandler(w http.ResponseWriter, r *http.Request) {
-	b.RESTHandler(w, r)
+// TelegramHandler wrapper
+func TelegramHandler(w http.ResponseWriter, r *http.Request) {
+	b.TelegramHandler(w, r)
 }
