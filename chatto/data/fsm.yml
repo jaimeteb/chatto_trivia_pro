@@ -1,6 +1,50 @@
 transitions:
   - from:
       - initial
+    into: select_category
+    command: start_category
+    answers:
+      - text: |-
+          Hello and welcome to the trivia bot! ✨
+          
+          You'll be asked 3 different trivia questions from any difficulty.
+          Select a category:
+
+          1. General Knowledge 🎓
+          2. Books 📚
+          3. Film 🍿
+          4. Music 🎹
+          5. Musicals & Theatres 🎭
+          6. Television 📺
+          7. Video Games 🎮
+          8. Board Games 🎲
+          9. Science & Nature 🧬
+          10. Computers 💻
+          11. Mathematics 🧮
+          12. Mythology 🔱
+          13. Sports ⚽
+          14. Geography 🗺️
+          15. History 📜
+          16. Politics 👨‍⚖️
+          17. Art 🎨
+          18. Celebrities 👩‍🎤
+          19. Animals 🐅
+          20. Vehicles 🏎️
+          21. Comics 💬
+          22. Gadgets ⚙️
+          23. Japanese Anime & Manga 🇯🇵
+          24. Cartoon & Animations 📺
+
+  - from:
+      - select_category
+    into: question_1
+    command: any
+    extension:
+      server: trivia
+      name: init_category
+
+  - from:
+      - initial
     into: question_1
     command: start
     extension:

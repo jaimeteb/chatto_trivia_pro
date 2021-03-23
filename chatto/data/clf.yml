@@ -10,6 +10,12 @@ classification:
       - "hi"
       - "hello"
 
+  - command: start_category
+    texts:
+      - "start_category"
+      - "category"
+      - "see categories"
+
   - command: end
     texts:
       - "end"  

@@ -9,6 +9,8 @@ provider:
 
 frameworkVersion: '2'
 
+configValidationMode: off
+
 plugins:
   - serverless-google-cloudfunctions
   - serverless-plugin-scripts  
