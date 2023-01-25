@@ -1,0 +1,32 @@
+services:
+  chatto:
+    image: jaimeteb/chatto:v0.8.6
+    env_file: .env
+    ports:
+      - "4770:4770"
+    volumes:
+      - ./chatto/data:/data
+    depends_on:
+      - ext
+      - redis
+
+  ext:
+    image: jaimeteb/chatto_trivia_pro_extensions
+    build: extensions
+    env_file: .env
+    expose:
+      - 8770
+
+  redis:
+    image: bitnami/redis:6.0
+    environment:
+      - REDIS_PASSWORD=${CHATTO_BOT_STORE_PASSWORD}
+    expose:
+      - 6379
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379:0:${CHATTO_BOT_STORE_PASSWORD}
+    ports:
+      - "8081:8081"

@@ -4,3 +4,10 @@ extensions:
   trivia:
     type: REST
     url: 
+
+store:
+  type: REDIS
+  host: 
+  port: 
+  password: 
+  ttl: 30m
