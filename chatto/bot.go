@@ -22,3 +22,8 @@ func init() {
 func TelegramHandler(w http.ResponseWriter, r *http.Request) {
 	b.TelegramHandler(w, r)
 }
+
+// RESTHandler wrapper
+func RESTHandler(w http.ResponseWriter, r *http.Request) {
+	b.RESTHandler(w, r)
+}

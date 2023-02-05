@@ -1,6 +1,6 @@
 services:
   chatto:
-    image: jaimeteb/chatto:v0.8.6
+    image: jaimeteb/chatto:v0.9.0
     env_file: .env
     ports:
       - "4770:4770"

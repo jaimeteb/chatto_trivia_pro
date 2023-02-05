@@ -11,3 +11,4 @@ store:
   port: 
   password: 
   ttl: 30m
+  tls: true
