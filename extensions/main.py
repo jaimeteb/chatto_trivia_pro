@@ -34,7 +34,7 @@ if __name__ == "__main__":
     from flask import Flask, request
 
     app = Flask(__name__)
-    debug = True if os.getenv("DEBUG", "false") == "true" else False
+    debug = os.getenv("DEBUG", "false") == "true"
 
     @app.route("/extensions", methods=["GET"])
     def get_all_extensions_flask():

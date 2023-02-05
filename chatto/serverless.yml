@@ -1,14 +1,14 @@
-service: chatto-trivia-bot
+service: chatto-trivia-pro-chatto
 
 provider:
   name: google
   stage: dev
-  runtime: go113
+  runtime: go119
   project: jaimeteb
   credentials: ~/.gcloud/serverless-deployer.json
   environment: ${file(../.env.json)}
 
-frameworkVersion: '2'
+frameworkVersion: '3'
 
 configValidationMode: off
 
@@ -26,15 +26,20 @@ functions:
     handler: TelegramHandler
     events:
       - http: path
+  rest:
+    handler: RESTHandler
+    events:
+      - http: path
 
-custom:
-  scripts:
-    commands:
-      make-public: |
-        gcloud functions add-iam-policy-binding ${self:service}-${self:provider.stage}-${opt:function, ''} \
-          --member="allUsers" \
-          --role="roles/cloudfunctions.invoker" \
-          --project=${self:provider.project}
-    hooks:
-      'after:deploy:deploy': |
-        npx sls make-public --function telegram
+# custom:
+#   scripts:
+#     commands:
+#       make-public: |
+#         gcloud functions add-iam-policy-binding ${self:service}-${self:provider.stage}-${opt:function, ''} \
+#           --member="allUsers" \
+#           --role="roles/cloudfunctions.invoker" \
+#           --project=${self:provider.project}
+#     hooks:
+#       'after:deploy:deploy': |
+#         npx sls make-public --function telegram
+#         npx sls make-public --function rest

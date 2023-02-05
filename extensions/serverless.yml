@@ -1,4 +1,4 @@
-service: chatto-trivia-extensions
+service: chatto-trivia-pro-extensions
 
 provider:
   name: google
@@ -7,14 +7,13 @@ provider:
   project: jaimeteb
   credentials: ~/.gcloud/serverless-deployer.json
 
-frameworkVersion: '2'
+frameworkVersion: '3'
 
 configValidationMode: off
 
 plugins:
   - serverless-google-cloudfunctions
-  - serverless-plugin-scripts  
-
+  - serverless-plugin-scripts
 package:
   exclude:
     - node_modules/**
@@ -27,14 +26,14 @@ functions:
     events:
       - http: path
 
-custom:
-  scripts:
-    commands:
-      make-public: |
-        gcloud functions add-iam-policy-binding ${self:service}-${self:provider.stage}-${opt:function, ''} \
-          --member="allUsers" \
-          --role="roles/cloudfunctions.invoker" \
-          --project=${self:provider.project}
-    hooks:
-      'after:deploy:deploy': |
-        npx sls make-public --function rest
+# custom:
+#   scripts:
+#     commands:
+#       make-public: |
+#         gcloud functions add-iam-policy-binding ${self:service}-${self:provider.stage}-${opt:function, ''} \
+#           --member="allUsers" \
+#           --role="roles/cloudfunctions.invoker" \
+#           --project=${self:provider.project}
+#     hooks:
+#       'after:deploy:deploy': |
+#         npx sls make-public --function rest
