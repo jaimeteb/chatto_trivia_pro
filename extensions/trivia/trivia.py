@@ -148,7 +148,7 @@ def get_category_pretty_name(name: str) -> str:
     return pretty_names[0]
 
 WELCOME_MESSAGE = "Hello and welcome to the trivia bot! ✨\n\nYou'll be asked 3 different trivia questions from any difficulty and category."
-QUESTION_TEMPLATE = "*Category: {category}* \n👉 {question_text} \n{options}"
+QUESTION_TEMPLATE = "*Category: {category}* \n❓ {question_text} \n{options}"
 
 
 def make_text_answers(*messages) -> List[dict]:
@@ -316,7 +316,8 @@ def score_review(data: dict) -> dict:
         question = slots.get(f"{i}_question")
         corr_text = slots.get(f"{i}_correct_text")
         message.append(
-            f"{emoji_numbers.get(str(i))} {question} \n👉 *{corr_text}*")
+            # f"{emoji_numbers.get(str(i))} {question} \n👉 *{corr_text}*")
+            f"❓ {question} \n👉 *{corr_text}*")
     message_final = "\n\n".join(message)
 
     return jsonify({
