@@ -10,30 +10,30 @@ transitions:
           You'll be asked 3 different trivia questions from any difficulty.
           Select a category:
 
-          1. General Knowledge 🎓
-          2. Books 📚
-          3. Film 🍿
-          4. Music 🎹
-          5. Musicals & Theatres 🎭
-          6. Television 📺
-          7. Video Games 🎮
-          8. Board Games 🎲
-          9. Science & Nature 🧬
-          10. Computers 💻
-          11. Mathematics 🧮
-          12. Mythology 🔱
-          13. Sports ⚽
-          14. Geography 🗺️
-          15. History 📜
-          16. Politics 👨‍⚖️
-          17. Art 🎨
-          18. Celebrities 👩‍🎤
-          19. Animals 🐅
-          20. Vehicles 🏎️
-          21. Comics 💬
-          22. Gadgets ⚙️
-          23. Japanese Anime & Manga 🇯🇵
-          24. Cartoon & Animations 📺
+          1️⃣ General Knowledge 🎓
+          2️⃣ Books 📚
+          3️⃣ Film 🍿
+          4️⃣ Music 🎹
+          5️⃣ Musicals & Theatres 🎭
+          6️⃣ Television 📺
+          7️⃣ Video Games 🎮
+          8️⃣ Board Games 🎲
+          9️⃣ Science & Nature 🧬
+          1️⃣0️⃣ Computers 💻
+          1️⃣1️⃣ Mathematics 🧮
+          1️⃣2️⃣ Mythology 🔱
+          1️⃣3️⃣ Sports ⚽
+          1️⃣4️⃣ Geography 🗺️
+          1️⃣5️⃣ History 📜
+          1️⃣6️⃣ Politics 👨‍⚖️
+          1️⃣7️⃣ Art 🎨
+          1️⃣8️⃣ Celebrities 👩‍🎤
+          1️⃣9️⃣ Animals 🐅
+          2️⃣0️⃣ Vehicles 🏎️
+          2️⃣1️⃣ Comics 💬
+          2️⃣2️⃣ Gadgets ⚙️
+          2️⃣3️⃣ Japanese Anime & Manga 🇯🇵
+          2️⃣4️⃣ Cartoon & Animations 📺
 
   - from:
       - select_category
@@ -109,6 +109,6 @@ transitions:
       - text: Bye bye! 👋
 
 defaults:
-  unknown: "Not sure I understood, try again please."
-  unsure: "Not sure I understood, try again please."
-  error: "I'm sorry, there was an error."
+  unknown: "Not sure I understood 🤔, try again please."
+  unsure: "Not sure I understood 🤔, try again please."
+  error: "I'm sorry, there was an error 😓."
