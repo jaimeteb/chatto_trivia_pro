@@ -19,7 +19,6 @@ jobs:
     - uses: actions/checkout@v3
     - name: Load credentials
       run: |
-        mkdir -p /github/home/.gcloud
         echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > .serverless-deployer.json
         echo '${{ secrets.CHATTO_TRIVIA_PRO_ENV }}' > .env.json
         ls -l .serverless-deployer.json
