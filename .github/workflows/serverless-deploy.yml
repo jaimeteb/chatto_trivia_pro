@@ -37,7 +37,7 @@ jobs:
     - run: cd ./extensions && npm ci
     - name: serverless deploy extensions
       uses: serverless/github-action@v3.1
-     with:
+      with:
         args: deploy
       
   
