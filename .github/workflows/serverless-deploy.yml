@@ -23,8 +23,8 @@ jobs:
         node-version: ${{ matrix.node-version }}
     - name: Load credentials
       run: |
-        mkdir ~/.gcloud
-        echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > ~/.gcloud/serverless-deployer.json
+        mkdir -p /github/home/.gcloud
+        echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > /github/home/.gcloud/serverless-deployer.json
         echo '${{ secrets.CHATTO_TRIVIA_PRO_ENV }}' > .env.json
         ls -l ~/.gcloud/serverless-deployer.json
         ls -l .env.json
