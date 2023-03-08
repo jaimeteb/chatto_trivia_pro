@@ -26,6 +26,8 @@ jobs:
         mkdir ~/.gcloud
         echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > ~/.gcloud/serverless-deployer.json
         echo '${{ secrets.CHATTO_TRIVIA_PRO_ENV }}' > .env.json
+        ls -l ~/.gcloud/serverless-deployer.json
+        ls -l .env.json
     # chatto
     - run: cd ./chatto && npm ci
     - name: serverless deploy chatto
