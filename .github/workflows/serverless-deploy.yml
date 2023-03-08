@@ -31,13 +31,14 @@ jobs:
     - name: serverless deploy chatto
       uses: serverless/github-action@v3.1
       with:
-        args: deploy
+        args: -c "cd ./chatto && serverless deploy"
+        entrypoint: /bin/sh
     # extensions
-    - run: cd ..
     - run: cd ./extensions && npm ci
     - name: serverless deploy extensions
       uses: serverless/github-action@v3.1
       with:
-        args: deploy
+        args: -c "cd ./extensions && serverless deploy"
+        entrypoint: /bin/sh
       
   
