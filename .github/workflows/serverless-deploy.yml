@@ -21,20 +21,23 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
     - name: Load credentials
       run: |
         mkdir ~/.gcloud
         echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > ~/.gcloud/serverless-deployer.json
         echo '${{ secrets.CHATTO_TRIVIA_PRO_ENV }}' > .env.json
+    # chatto
+    - run: cd ./chatto && npm ci
     - name: serverless deploy chatto
       uses: serverless/github-action@v3.1
       with:
-        args: -c "cd ./chatto && serverless deploy && cd .."
-        entrypoint: /bin/sh
+        args: deploy
+    # extensions
+    - run: cd ..
+    - run: cd ./extensions && npm ci
     - name: serverless deploy extensions
       uses: serverless/github-action@v3.1
-      with:
-        args: -c "cd ./extensions && serverless deploy && cd .."
-        entrypoint: /bin/sh
+     with:
+        args: deploy
+      
   
