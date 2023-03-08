@@ -5,7 +5,7 @@ provider:
   stage: dev
   runtime: go119
   project: jaimeteb
-  credentials: ~/.gcloud/serverless-deployer.json
+  credentials: ../.serverless-deployer.json
   environment: ${file(../.env.json)}
 
 frameworkVersion: '3'

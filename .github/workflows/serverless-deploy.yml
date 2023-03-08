@@ -17,17 +17,17 @@ jobs:
         node-version: [16.x]
     steps:
     - uses: actions/checkout@v3
+    - name: Load credentials
+      run: |
+        mkdir -p /github/home/.gcloud
+        echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > .serverless-deployer.json
+        echo '${{ secrets.CHATTO_TRIVIA_PRO_ENV }}' > .env.json
+        ls -l .serverless-deployer.json
+        ls -l .env.json
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Load credentials
-      run: |
-        mkdir -p /github/home/.gcloud
-        echo '${{ secrets.GCLOUD_SERVERLESS_DEPLOYER }}' > /github/home/.gcloud/serverless-deployer.json
-        echo '${{ secrets.CHATTO_TRIVIA_PRO_ENV }}' > .env.json
-        ls -l ~/.gcloud/serverless-deployer.json
-        ls -l .env.json
     # chatto
     - run: cd ./chatto && npm ci
     - name: serverless deploy chatto
