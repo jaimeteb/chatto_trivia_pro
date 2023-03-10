@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"path"
 
+	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/jaimeteb/chatto/bot"
 )
 
@@ -16,6 +17,7 @@ const (
 
 func init() {
 	b = bot.NewServer(path.Join(sourceCodePath, chattoDataPath), 0)
+	functions.HTTP("RESTHandler", RESTHandler)
 }
 
 // TelegramHandler wrapper
