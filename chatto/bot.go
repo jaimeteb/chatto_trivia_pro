@@ -18,6 +18,7 @@ const (
 func init() {
 	b = bot.NewServer(path.Join(sourceCodePath, chattoDataPath), 0)
 	functions.HTTP("RESTHandler", RESTHandler)
+	functions.HTTP("TelegramHandler", TelegramHandler)
 }
 
 // TelegramHandler wrapper
