@@ -17,8 +17,10 @@ const (
 
 func init() {
 	b = bot.NewServer(path.Join(sourceCodePath, chattoDataPath), 0)
-	functions.HTTP("RESTHandler", RESTHandler)
-	functions.HTTP("TelegramHandler", TelegramHandler)
+	if false {
+		functions.HTTP("RESTHandler", RESTHandler)
+		functions.HTTP("TelegramHandler", TelegramHandler)
+	}
 }
 
 // TelegramHandler wrapper
@@ -28,5 +30,12 @@ func TelegramHandler(w http.ResponseWriter, r *http.Request) {
 
 // RESTHandler wrapper
 func RESTHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "POST")
+	if r.Method == "OPTIONS" {
+		w.WriteHeader(http.StatusNoContent)
+		return
+	}
+
 	b.RESTHandler(w, r)
 }
