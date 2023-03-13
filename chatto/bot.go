@@ -4,7 +4,6 @@ import (
 	"net/http"
 	"path"
 
-	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/jaimeteb/chatto/bot"
 )
 
@@ -17,10 +16,8 @@ const (
 
 func init() {
 	b = bot.NewServer(path.Join(sourceCodePath, chattoDataPath), 0)
-	if false {
-		functions.HTTP("RESTHandler", RESTHandler)
-		functions.HTTP("TelegramHandler", TelegramHandler)
-	}
+	// functions.HTTP("RESTHandler", RESTHandler)
+	// functions.HTTP("TelegramHandler", TelegramHandler)
 }
 
 // TelegramHandler wrapper
@@ -34,8 +31,7 @@ func RESTHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Methods", "POST")
 	if r.Method == "OPTIONS" {
 		w.WriteHeader(http.StatusNoContent)
-		return
+	} else {
+		b.RESTHandler(w, r)
 	}
-
-	b.RESTHandler(w, r)
 }
