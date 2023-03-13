@@ -16,8 +16,6 @@ const (
 
 func init() {
 	b = bot.NewServer(path.Join(sourceCodePath, chattoDataPath), 0)
-	// functions.HTTP("RESTHandler", RESTHandler)
-	// functions.HTTP("TelegramHandler", TelegramHandler)
 }
 
 // TelegramHandler wrapper
@@ -29,6 +27,7 @@ func TelegramHandler(w http.ResponseWriter, r *http.Request) {
 func RESTHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Methods", "POST")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type, Authorization")
 	if r.Method == "OPTIONS" {
 		w.WriteHeader(http.StatusNoContent)
 	} else {
